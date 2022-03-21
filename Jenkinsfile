@@ -40,7 +40,6 @@ spec:
 		   }
         }
       }
-    }
     stage('Push') {
       steps {
         script {
