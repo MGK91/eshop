@@ -37,7 +37,8 @@ spec:
              /usr/bin/aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 831089310150.dkr.ecr.us-east-2.amazonaws.com
              docker build -t eshop-demo:$BUILD_NUMBER .
              docker tag eshop-demo:$BUILD_NUMBER 831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice-win:$BUILD_NUMBER
-             docker push 831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice-win:$BUILD_NUMBER
+             /usr/bin/aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 831089310150.dkr.ecr.us-east-2.amazonaws.com
+             docker push 831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice:$BUILD_NUMBER         
           """
         }
       }
