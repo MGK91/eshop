@@ -44,8 +44,7 @@ spec:
              docker tag eshop-demo:$BUILD_NUMBER 831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice:$BUILD_NUMBER
              docker.withRegistry("https://" + registry, "ecr.us-east-2" + registryCredential) {
                  dockerImage.push()
-             }
-             docker push 831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice:$BUILD_NUMBER         
+             }        
           """
         }
       }
