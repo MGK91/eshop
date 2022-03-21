@@ -42,7 +42,7 @@ spec:
              docker tag eshop-demo:$BUILD_NUMBER "831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice:${env.BUILD_NUMBER}"
              docker push "831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice:${env.BUILD_NUMBER}"
              /usr/bin/aws eks update-kubeconfig --region ${env.AWS_DEFAULT_REGION} --name ${env.CLUSTER}
-             /usr/local/bin/kubectl set image deployment/eshpwebmvc-deployment eshopwebmvc="831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice:${env.BUILD_NUMBER}" --record
+             /usr/local/bin/kubectl set image deployment/nginx-ingress nginx-plus-ingress="831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice:${env.BUILD_NUMBER}" --record
           """
         }
       }
