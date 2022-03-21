@@ -30,7 +30,6 @@ spec:
         claimName: m2
 """
 }
-   }
     stage('Push') {
       steps {
         container('docker') {
@@ -46,4 +45,5 @@ spec:
         }
       }
     }
+  }
 }
