@@ -49,6 +49,7 @@ spec:
              sudo mv ./kubectl /usr/local/bin/kubectl
              chmod +x ./kubectl
              /usr/bin/aws eks update-kubeconfig --region ${env.AWS_DEFAULT_REGION} --name ${env.CLUSTER}
+             /usr/local/bin/kubectl set image deployment/eshpwebmvc-deployment eshopwebmvc="831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice:${env.BUILD_NUMBER}" --record
           """
         }
       }
