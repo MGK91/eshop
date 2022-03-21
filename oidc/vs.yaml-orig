@@ -1,0 +1,19 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: app-ingress
+spec:
+  host: eshoposm.faa-karsun.com
+  tls:
+    secret: eshoppsm-tls
+  upstreams:
+  - name: app-server-payload
+    service: eshopwebmvc-service
+    port: 443
+  routes:
+  - path: /
+    policies:
+    - name: ingress-oidc-policy
+    action:
+      proxy: 
+        upstream: app-server-payload

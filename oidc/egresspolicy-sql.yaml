@@ -1,0 +1,31 @@
+kind: Egress
+apiVersion: policy.openservicemesh.io/v1alpha1
+metadata:
+  name: SQLEgressWeb
+  namespace: faa-win
+spec:
+  sources:
+  - kind: Deployment
+    name: eshpwebmvc-deployment
+    namespace: faa-win
+  hosts:
+  - sql-faa-zero-trust.cb36wyhp22xr.us-east-2.rds.amazonaws.com
+  ports:
+  - number: 1433
+    protocol: tcp-server-first
+---
+kind: Egress
+apiVersion: policy.openservicemesh.io/v1alpha1
+metadata:
+  name: SQLEgressApi
+  namespace: faa-win
+spec:
+  sources:
+  - kind: Deployment
+    name: eshppublicapi-deployment 
+    namespace: faa-win
+  hosts:
+  - sql-faa-zero-trust.cb36wyhp22xr.us-east-2.rds.amazonaws.com
+  ports:
+  - number: 1433
+    protocol: tcp-server-first

@@ -1,0 +1,31 @@
+kind: IngressBackend
+apiVersion: policy.openservicemesh.io/v1alpha1
+metadata:
+  name: eshop-backend
+  namespace: faa
+spec:
+  backends:
+  - name: eshopwebmvc-service
+    port:
+      number: 443
+      protocol: https
+  sources:
+  - kind: Service
+    namespace: nginx-ingress
+    name: nginx-ingress
+---
+kind: IngressBackend
+apiVersion: policy.openservicemesh.io/v1alpha1
+metadata:
+  name: eshopapi-backend
+  namespace: faa
+spec:
+  backends:
+  - name: eshoppublicapi-service
+    port:
+      number: 443
+      protocol: https
+  sources:
+  - kind: Service
+    namespace: nginx-ingress
+    name: nginx-ingress

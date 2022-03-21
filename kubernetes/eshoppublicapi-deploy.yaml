@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eshppublicapi-deployment
+  namespace: faa-win
+  labels:
+    app: eshoppublicapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eshoppublicapi
+  template:
+    metadata:
+      labels:
+        app: eshoppublicapi
+    spec:
+      containers:
+#     - name: envoy-api
+#       image: 831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice-win:envoy-apiv1
+#       ports:
+#       - name: envoy-admin
+#         containerPort: 9901
+#         protocol: TCP
+#       - name: envoy-api
+#         containerPort: 9045
+#         protocol: TCP
+      - name: eshoppublicapi
+        image: 831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice-win:publicapiv2
+        env:
+        - name: ASPNETCORE_URLS
+          value: https://+:9445
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+        - name: ASPNETCORE_HTTPS_PORT
+          value: '9445'
+        - name: ASPNETCORE_Kestrel__Certificates__Default__Password
+          value: admin@123 
+        - name: ASPNETCORE_Kestrel__Certificates__Default__Path
+          value: /https/PublicApi.pfx
+        volumeMounts:
+        - mountPath: /https
+          name: publicapi-volume
+        ports:
+        - name: https
+          containerPort: 9445 
+          protocol: TCP
+      nodeSelector:
+        beta.kubernetes.io/os: "windows"
+        beta.kubernetes.io/arch: "amd64"
+      volumes:
+        - name: publicapi-volume
+          hostPath:
+            path: C:\osm\eshop\security

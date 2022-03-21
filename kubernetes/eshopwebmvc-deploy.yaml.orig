@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eshpwebmvc-deployment
+  namespace: faa
+  labels:
+    app: eshopwebmvc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eshopwebmvc
+  template:
+    metadata:
+      labels:
+        app: eshopwebmvc
+    spec:
+      containers:
+      - name: eshopwebmvc
+        image: 831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice:v3
+        volumeMounts:
+        - mountPath: /root/.aspnet/https/
+          name: web-volume
+        ports:
+        - name: https
+          containerPort: 443
+          protocol: TCP
+        imagePullPolicy: Always 
+      nodeSelector:
+        kubernetes.io/os: windows
+        kubernetes.io/arch: amd64
+      volumes:
+        - name: web-volume
+          secret: 
+            secretName: dotnetwebpfx
+ 

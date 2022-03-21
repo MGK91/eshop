@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eshpwebmvc-deployment
+  namespace: faa-win 
+  labels:
+    app: eshopwebmvc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eshopwebmvc
+  template:
+    metadata:
+      labels:
+        app: eshopwebmvc
+    spec:
+      containers:
+      - name: envoy-web
+        image: 831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice-win:envoynew-v1 
+        ports:
+        - name: envoy-admin
+          containerPort: 9901
+          protocol: TCP
+        - name: envoy-web
+          containerPort: 9043
+          protocol: TCP 
+      - name: eshopwebmvc
+        image: 831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice-win:webmvcv3
+        env:
+        - name: ASPNETCORE_URLS
+          value: https://+:9043
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+        - name: ASPNETCORE_HTTPS_PORT
+          value: '9043'
+        - name: ASPNETCORE_Kestrel__Certificates__Default__Password
+          value: admin@123
+        - name: ASPNETCORE_Kestrel__Certificates__Default__Path
+          value: /https/Web.pfx
+        volumeMounts:
+        - mountPath: /https
+          name: web-volume
+        resources:
+          limits:
+             vpc.amazonaws.com/PrivateIPv4Address: "1"
+          requests:
+             vpc.amazonaws.com/PrivateIPv4Address: "1"
+        ports:
+        - name: https
+          containerPort: 9043
+          protocol: TCP
+      volumes:
+      - name: web-volume
+        hostPath:
+           path: C:\osm\eshop\security
+      nodeSelector:
+          beta.kubernetes.io/os: "windows"
+          beta.kubernetes.io/arch: "amd64"

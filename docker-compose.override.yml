@@ -1,0 +1,27 @@
+version: '3.4'
+services:
+ eshopwebmvc:
+   environment:
+     - ASPNETCORE_ENVIRONMENT=Development
+     - ASPNETCORE_URLS=https://+:443
+     - ASPNETCORE_Kestrel__Certificates__Default__Password=admin@123
+     - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Web.pfx
+     - ASPNETCORE_HTTPS_PORT=9090
+   ports:
+     - "9090:443"
+   volumes:
+     - ~/.aspnet/https:/root/.aspnet/https/
+     - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets
+
+ eshoppublicapi:
+   environment:
+     - ASPNETCORE_ENVIRONMENT=Development
+     - ASPNETCORE_URLS=https://+:443
+     - ASPNETCORE_Kestrel__Certificates__Default__Password=admin1234
+     - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/PublicApi.pfx
+     - ASPNETCORE_HTTPS_PORT=9093
+   ports:
+     - "9093:443"
+   volumes:
+     - ~/.aspnet/https:/root/.aspnet/https/
+     - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets

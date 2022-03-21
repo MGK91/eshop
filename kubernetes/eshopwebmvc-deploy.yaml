@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eshpwebmvc-deployment
+  namespace: faa-win
+  labels:
+    app: eshopwebmvc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eshopwebmvc
+  template:
+    metadata:
+      labels:
+        app: eshopwebmvc
+    spec:
+      containers:
+      - name: eshopwebmvc
+        image: 831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice-win:webmvc7
+        volumeMounts:
+          - name: https
+            mountPath: \https
+        env:
+        - name: ASPNETCORE_URLS
+          value: https://+:443
+        - name: ASPNETCORE_Kestrel__Certificates__Default__Password
+          value: admin@123
+        - name: ASPNETCORE_Kestrel__Certificates__Default__Path
+          value: \https\Web.pfx
+        resources:
+          limits:
+             vpc.amazonaws.com/PrivateIPv4Address: "1"
+          requests:
+             vpc.amazonaws.com/PrivateIPv4Address: "1"
+        ports:
+        - name: https
+          containerPort: 443
+          protocol: TCP
+        imagePullPolicy: Always
+      volumes:
+      - name: https
+        persistentVolumeClaim:
+          claimName: pvc-https
+      nodeSelector:
+          beta.kubernetes.io/os: "windows"
+          beta.kubernetes.io/arch: "amd64"
+

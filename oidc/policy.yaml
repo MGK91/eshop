@@ -1,0 +1,11 @@
+apiVersion: k8s.nginx.org/v1
+kind: Policy
+metadata:
+  name: ingress-oidc-policy
+spec:
+  oidc:
+    clientID: "653176366659-37c1oegrhk6e9f20gdv4qh0pf7japkea.apps.googleusercontent.com"
+    clientSecret: oidc-secret 
+    authEndpoint: https://accounts.google.com/o/oauth2/auth
+    tokenEndpoint: https://oauth2.googleapis.com/token
+    jwksURI: https://www.googleapis.com/oauth2/v1/certs
