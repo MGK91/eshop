@@ -1,7 +1,6 @@
 pipeline {
   agent {
     kubernetes {
-      label 'eshop-demo'
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
@@ -30,6 +29,7 @@ spec:
         claimName: m2
 """
 }
+  }
     stage('Push') {
       steps {
         container('docker') {
@@ -45,5 +45,4 @@ spec:
         }
       }
     }
-  }
 }
