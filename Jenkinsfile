@@ -53,7 +53,8 @@ spec:
           sh """
              docker.withRegistry($registry, $registryCredential) {
                 docker.push("${env.BUILD_NUMBER}")
-             }
+          """
+            }
         }
       }
     }
