@@ -30,19 +30,20 @@ spec:
 """
 }
   }
+  stages {
     stage('Push') {
       steps {
         container('docker') {
           sh """
              docker build -t eshop-demo:$BUILD_NUMBER .
-             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-             unzip awscliv2.zip
-             sudo ./aws/install
-             aws ecr get-login
+             apk update
+             apk add curl unzip aws-cli
+             /usr/bin/aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 831089310150.dkr.ecr.us-east-2.amazonaws.com
              docker tag eshop-demo:$BUILD_NUMBER 831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice-win:$BUILD_NUMBER
              docker push 831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice-win:$BUILD_NUMBER
           """
         }
       }
     }
+  }
 }
