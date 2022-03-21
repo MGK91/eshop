@@ -1,4 +1,9 @@
 pipeline {
+  environment {
+     registry = '831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice'
+     registryCredential = 'jenkins-ecr'
+     dockerImage = ''
+  }
   agent {
     kubernetes {
       defaultContainer 'jnlp'
@@ -28,20 +33,21 @@ spec:
 }
   }
   stages {
-    stage('Push') {
+    stage('Build') {
       steps {
-        container('docker') {
-          sh """
-             apk update
-             apk add curl unzip aws-cli
-             /usr/bin/aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 831089310150.dkr.ecr.us-east-2.amazonaws.com
-             docker build -t eshop-demo:$BUILD_NUMBER .
-             docker tag eshop-demo:$BUILD_NUMBER 831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice:$BUILD_NUMBER
-             /usr/bin/aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 831089310150.dkr.ecr.us-east-2.amazonaws.com
-             docker push 831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice:$BUILD_NUMBER         
-          """
+        script {
+		   dockerImage = docker.build registry + ":$BUILD_NUMBER"
+		   }
         }
       }
+    }
+    stage('Push') {
+      steps {
+        script {
+           docker.withRegistry("https://" + registry, "ecr.us-east-2" + registryCredential) {
+                 dockerImage.push()
+           }
+		}
     }
   }
 }
