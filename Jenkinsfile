@@ -46,7 +46,7 @@ spec:
              export AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY}
              docker push "831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice:${env.BUILD_NUMBER}"
              curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kubectl
-             sudo mv ./kubectl /usr/local/bin/kubectl
+             mv ./kubectl /usr/local/bin/kubectl
              chmod +x ./kubectl
              /usr/bin/aws eks update-kubeconfig --region ${env.AWS_DEFAULT_REGION} --name ${env.CLUSTER}
              /usr/local/bin/kubectl set image deployment/eshpwebmvc-deployment eshopwebmvc="831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice:${env.BUILD_NUMBER}" --record
