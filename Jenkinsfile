@@ -44,6 +44,7 @@ spec:
              docker tag eshop-demo:$BUILD_NUMBER "831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice:${env.BUILD_NUMBER}"
              export AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID}
              export AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY}
+             docker push "831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice:${env.BUILD_NUMBER}"
           """
         }
       }
