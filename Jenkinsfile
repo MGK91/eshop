@@ -3,7 +3,6 @@ pipeline {
      registry = '831089310150.dkr.ecr.us-east-2.amazonaws.com/microservice'
      registryCredential = 'jenkins-ecr'
      dockerImage = ''
-     CLUSTER = "osm2"
   }
   agent {
     kubernetes {
